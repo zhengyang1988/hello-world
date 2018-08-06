@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions id="definitions_c8373702-1e55-45c7-a391-b959e546e84c" targetNamespace="http://camunda.org/examples" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="process-with-parallel-gateway">
+    <startEvent id="start1">
+      <outgoing>start1-fork1</outgoing>
+    </startEvent>
+    <parallelGateway id="fork1">
+      <incoming>start1-fork1</incoming>
+      <outgoing>fork1-task11</outgoing>
+      <outgoing>fork1-task21</outgoing>
+    </parallelGateway>
+    <userTask id="task11">
+      <incoming>fork1-task11</incoming>
+      <outgoing>task11-join1</outgoing>
+    </userTask>
+    <serviceTask id="task21">
+      <incoming>fork1-task21</incoming>
+      <outgoing>task21-join1</outgoing>
+    </serviceTask>
+    <parallelGateway id="join1">
+      <incoming>task11-join1</incoming>
+      <incoming>task21-join1</incoming>
+      <outgoing>join1-end1</outgoing>
+    </parallelGateway>
+    <endEvent id="end1">
+      <incoming>join1-end1</incoming>
+    </endEvent>
+    <sequenceFlow id="start1-fork1" sourceRef="start1" targetRef="fork1"/>
+    <sequenceFlow id="fork1-task11" sourceRef="fork1" targetRef="task11"/>
+    <sequenceFlow id="fork1-task21" sourceRef="fork1" targetRef="task21"/>
+    <sequenceFlow id="task11-join1" sourceRef="task11" targetRef="join1"/>
+    <sequenceFlow id="task21-join1" sourceRef="task21" targetRef="join1"/>
+    <sequenceFlow id="join1-end1" sourceRef="join1" targetRef="end1"/>
+  </process>
+  <process id="process-with-one-task">
+    <startEvent id="start">
+      <outgoing>start-task1</outgoing>
+    </startEvent>
+    <userTask id="task1">
+      <incoming>start-task1</incoming>
+      <outgoing>task1-end</outgoing>
+    </userTask>
+    <endEvent id="end">
+      <incoming>task1-end</incoming>
+    </endEvent>
+    <sequenceFlow id="start-task1" sourceRef="start" targetRef="task1"/>
+    <sequenceFlow id="task1-end" sourceRef="task1" targetRef="end"/>
+  </process>
+</definitions>
